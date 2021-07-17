@@ -45,7 +45,7 @@ public class JwtTokenUtil {
     }
 
     /**
-     * 根据token获取用户名
+     * 根据token获取用户名;
      *
      * @param token
      * @return
