@@ -1,9 +1,9 @@
 package com.ming.server.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.PositionMapper;
-import com.ming.pojo.Position;
-import com.ming.service.IPositionService;
+import com.ming.server.mapper.PositionMapper;
+import com.ming.server.pojo.Position;
+import com.ming.server.service.IPositionService;
 import org.springframework.stereotype.Service;
 
 /**

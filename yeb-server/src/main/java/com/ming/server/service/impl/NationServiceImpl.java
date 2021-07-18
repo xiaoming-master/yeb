@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.NationMapper;
-import com.ming.pojo.Nation;
-import com.ming.service.INationService;
+import com.ming.server.mapper.NationMapper;
+import com.ming.server.pojo.Nation;
+import com.ming.server.service.INationService;
 import org.springframework.stereotype.Service;
 
 /**

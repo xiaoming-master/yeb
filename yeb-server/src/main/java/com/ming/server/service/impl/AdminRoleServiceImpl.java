@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.AdminRoleMapper;
-import com.ming.pojo.AdminRole;
-import com.ming.service.IAdminRoleService;
+import com.ming.server.mapper.AdminRoleMapper;
+import com.ming.server.pojo.AdminRole;
+import com.ming.server.service.IAdminRoleService;
 import org.springframework.stereotype.Service;
 
 /**

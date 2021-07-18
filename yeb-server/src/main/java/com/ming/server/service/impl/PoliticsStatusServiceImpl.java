@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.PoliticsStatusMapper;
-import com.ming.pojo.PoliticsStatus;
-import com.ming.service.IPoliticsStatusService;
+import com.ming.server.mapper.PoliticsStatusMapper;
+import com.ming.server.pojo.PoliticsStatus;
+import com.ming.server.service.IPoliticsStatusService;
 import org.springframework.stereotype.Service;
 
 /**

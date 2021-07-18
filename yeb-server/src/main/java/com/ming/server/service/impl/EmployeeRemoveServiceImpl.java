@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.EmployeeRemoveMapper;
-import com.ming.pojo.EmployeeRemove;
-import com.ming.service.IEmployeeRemoveService;
+import com.ming.server.mapper.EmployeeRemoveMapper;
+import com.ming.server.pojo.EmployeeRemove;
+import com.ming.server.service.IEmployeeRemoveService;
 import org.springframework.stereotype.Service;
 
 /**

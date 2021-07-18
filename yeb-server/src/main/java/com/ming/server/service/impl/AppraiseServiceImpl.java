@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.AppraiseMapper;
-import com.ming.pojo.Appraise;
-import com.ming.service.IAppraiseService;
+import com.ming.server.mapper.AppraiseMapper;
+import com.ming.server.pojo.Appraise;
+import com.ming.server.service.IAppraiseService;
 import org.springframework.stereotype.Service;
 
 /**

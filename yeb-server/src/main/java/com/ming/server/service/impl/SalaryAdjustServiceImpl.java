@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.SalaryAdjustMapper;
-import com.ming.pojo.SalaryAdjust;
-import com.ming.service.ISalaryAdjustService;
+import com.ming.server.mapper.SalaryAdjustMapper;
+import com.ming.server.pojo.SalaryAdjust;
+import com.ming.server.service.ISalaryAdjustService;
 import org.springframework.stereotype.Service;
 
 /**

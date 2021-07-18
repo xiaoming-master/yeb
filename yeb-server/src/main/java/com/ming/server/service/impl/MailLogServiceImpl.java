@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.MailLogMapper;
-import com.ming.pojo.MailLog;
-import com.ming.service.IMailLogService;
+import com.ming.server.mapper.MailLogMapper;
+import com.ming.server.pojo.MailLog;
+import com.ming.server.service.IMailLogService;
 import org.springframework.stereotype.Service;
 
 /**

@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.Map;
  * @create: 2021-07-17 23:53
  * @program: yeb
  */
+@Component
 public class JwtTokenUtil {
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
@@ -28,6 +30,9 @@ public class JwtTokenUtil {
     //过期时间
     @Value("${jwt.expiration}")
     private Long expiration;
+
+    @Value("${jwt.tokenHeader}")
+    private String tokenHeader;
 
 
     /**
@@ -103,8 +108,9 @@ public class JwtTokenUtil {
     private String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
+//                .setHeader("tokenHeader")
                 .setExpiration(generateExpirationDate(expiration))
-                .signWith(SignatureAlgorithm.ES512, secret)
+                .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
 

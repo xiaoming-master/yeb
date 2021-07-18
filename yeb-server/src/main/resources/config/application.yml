@@ -21,7 +21,7 @@ spring:
 #      连接存货最大时间，0表示永久 默认30分钟
       max-lifetime: 180000
 #      测试连接是否可用的查询语句
-      connection-test-query: SELECT 1、
+      connection-test-query: SELECT 1
 
 #mybatis-plus配置
 mybatis-plus:

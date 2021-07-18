@@ -1,9 +1,10 @@
 package com.ming.server.service.impl;
 
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ming.mapper.SysMsgContentMapper;
-import com.ming.pojo.SysMsgContent;
-import com.ming.service.ISysMsgContentService;
+import com.ming.server.mapper.SysMsgContentMapper;
+import com.ming.server.pojo.SysMsgContent;
+import com.ming.server.service.ISysMsgContentService;
 import org.springframework.stereotype.Service;
 
 /**
