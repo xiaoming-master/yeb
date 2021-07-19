@@ -12,6 +12,7 @@ import com.ming.server.vo.AdminLoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -70,6 +71,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         //将登陆成功的用户信息保存
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         //生成token
         String token = jwtTokenUtil.generateToken(userDetails);
 

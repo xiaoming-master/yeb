@@ -27,6 +27,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Value("${jwt.tokenHeader}")
     private String tokenHeader;
 
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -39,17 +42,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader(tokenHeader);
 
         //存在token
-        if (null != authHeader && authHeader.startsWith(tokenHeader)) {
-            String token = authHeader.substring(tokenHeader.length());
+        if (null != authHeader && authHeader.startsWith(tokenHead)) {
+            String token = authHeader.substring(tokenHead.length());
             String username = jwtTokenUtil.getUsernameFromToken(token);
 
             //未登录
             if (null != username && null == SecurityContextHolder.getContext().getAuthentication()) {
                 //登陆操作
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                //验证token是否有效，重新设置用户对象
+                if (!jwtTokenUtil.validateToken(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
         }
         chain.doFilter(request, response);

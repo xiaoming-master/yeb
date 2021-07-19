@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,17 +32,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Override
+    public void configure(WebSecurity web) throws Exception {
+        //需要直接放行的请求，不会进入过滤器链
+        web.ignoring().mvcMatchers(
+                "/css/**",
+                "/js/**",
+                "index.html",
+                "/favicon.ico",
+                "/doc.html",
+                "/webjars/**",
+                "/swagger-resources/**",
+                "v2/api-docs/**"
+
+        );
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         //使用jwt不需要csrf
         http.csrf()
                 .disable()
                 .sessionManagement()
                 //基于token不需要session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                不需要验证的请求
-                .antMatchers("/login", "logout")
+                .antMatchers("/login", "/logout")
                 .permitAll()
                 //其他所有的请求都需要验证
                 .anyRequest()
