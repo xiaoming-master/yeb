@@ -18,7 +18,7 @@ public class ResBean {
 
     private int code;
     private String message;
-    private Object data;
+    private Object obj;
 
     /**
      * 成功返回结果

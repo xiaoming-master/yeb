@@ -50,7 +50,7 @@ public class LoginController {
      * @return
      */
     @ApiOperation(value = "获取当前用户信息")
-    @GetMapping("/getUserInfo")
+    @GetMapping("/admin/info")
     public Admin getUserInfo(Principal principal) {
         if (principal == null) {
             return null;

@@ -38,6 +38,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+
+        if (request.getRequestURI().equals("/login") || request.getRequestURI().startsWith("/captcha")) {
+            chain.doFilter(request, response);
+            return;
+        }
         //从请求头中获取token
         String authHeader = request.getHeader(tokenHeader);
 
@@ -51,8 +56,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 //登陆操作
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 //验证token是否有效，重新设置用户对象
-                if (!jwtTokenUtil.validateToken(token, userDetails)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                if (jwtTokenUtil.validateToken(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 }

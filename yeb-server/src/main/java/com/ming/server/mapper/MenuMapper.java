@@ -2,6 +2,9 @@ package com.ming.server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ming.server.pojo.Menu;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 /**
@@ -14,4 +17,5 @@ import com.ming.server.pojo.Menu;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    List<Menu> getMenuByAdminId(@Param("id") Integer id);
 }
