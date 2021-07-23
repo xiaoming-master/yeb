@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //需要直接放行的请求，不会进入过滤器链
         web.ignoring().mvcMatchers(
                 "/css/**",
+                "/login",
                 "/js/**",
                 "index.html",
                 "/favicon.ico",
@@ -72,8 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/login", "/logout")
-//                .permitAll()
+                .antMatchers("/login", "/logout")
+                .permitAll()
                 //其他所有的请求都需要验证
                 .anyRequest()
                 .authenticated()
