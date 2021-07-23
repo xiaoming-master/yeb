@@ -7,7 +7,9 @@ import com.google.code.kaptcha.Constants;
 import com.ming.server.common.ResBean;
 import com.ming.server.config.security.JwtTokenUtil;
 import com.ming.server.mapper.AdminMapper;
+import com.ming.server.mapper.RoleMapper;
 import com.ming.server.pojo.Admin;
+import com.ming.server.pojo.Role;
 import com.ming.server.service.IAdminService;
 import com.ming.server.vo.AdminLoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +40,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Autowired
     private AdminMapper adminMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -61,7 +67,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     public ResBean login(AdminLoginParam adminLoginParam, HttpServletRequest request) {
         //校验验证码
         String kapchaCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        if (StringUtils.isEmpty(adminLoginParam.getCode()) || !kapchaCode.equals(adminLoginParam.getCode())) {
+        if (StringUtils.isEmpty(adminLoginParam.getCode()) || !kapchaCode.equalsIgnoreCase(adminLoginParam.getCode())) {
             return ResBean.error("验证码错误!");
         }
 
@@ -96,7 +102,18 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      */
     @Override
     public Admin getAdminInfoByUsername(String username) {
-        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username));
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username).eq("enabled", true));
+    }
+
+    /**
+     * 根据用户id获取角色
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Role> getRolesByAdminId(Integer id) {
+        return roleMapper.getRolesByAdminId(id);
     }
 
 }

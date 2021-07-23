@@ -4,14 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ming.server.pojo.Role">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="nameZh" property="nameZh" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="nameZh" property="nameZh"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, nameZh
     </sql>
+
+    <!--    根据用户id查询角色-->
+    <select id="getRolesByAdminId" resultType="com.ming.server.pojo.Role">
+
+        SELECT r.id,
+               r.name,
+               r.nameZh
+        from t_role AS r
+                 LEFT JOIN t_admin_role AS ar ON r.id = ar.rid
+        WHERE ar.adminId = #{id}
+    </select>
 
 </mapper>

@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zhanglishen
@@ -17,5 +17,18 @@ import java.util.List;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    /**
+     * 根据用户id获取菜单
+     *
+     * @param id
+     * @return
+     */
     List<Menu> getMenuByAdminId(@Param("id") Integer id);
+
+    /**
+     * 根据角色id获取菜单
+     *
+     * @return
+     */
+    List<Menu> getMenusWithRole();
 }

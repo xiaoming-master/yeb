@@ -1,5 +1,6 @@
-package com.ming.server.config.security;
+package com.ming.server.config.security.filter;
 
+import com.ming.server.config.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

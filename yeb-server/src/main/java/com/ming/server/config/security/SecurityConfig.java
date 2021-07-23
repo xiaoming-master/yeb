@@ -1,16 +1,23 @@
 package com.ming.server.config.security;
 
+import com.ming.server.config.security.filter.CustomFilter;
+import com.ming.server.config.security.filter.JwtAuthenticationTokenFilter;
+import com.ming.server.pojo.Admin;
 import com.ming.server.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -29,6 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private CustomUrlDecisionManager customUrlDecisionManager;
+
+    @Autowired
+    private CustomFilter customFilter;
 
 
     @Override
@@ -49,6 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
         //使用jwt不需要csrf
         http.csrf()
                 .disable()
@@ -57,11 +72,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/logout")
-                .permitAll()
+//                .antMatchers("/login", "/logout")
+//                .permitAll()
                 //其他所有的请求都需要验证
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                //动态权限配置
+                .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+                    @Override
+                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
+                        o.setAccessDecisionManager(customUrlDecisionManager);
+                        o.setSecurityMetadataSource(customFilter);
+                        return o;
+                    }
+                });
 //                .and()
 //                //不用缓存
 //                .headers()
@@ -96,7 +120,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> adminService.getAdminInfoByUsername(username);
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                Admin admin = adminService.getAdminInfoByUsername(username);
+                if (null == admin) {
+                    throw new UsernameNotFoundException("用户名或密码错误");
+                }
+                admin.setRoles(adminService.getRolesByAdminId(admin.getId()));
+                return admin;
+            }
+        };
     }
 
     @Bean

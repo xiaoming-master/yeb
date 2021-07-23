@@ -4,9 +4,11 @@ package com.ming.server.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ming.server.common.ResBean;
 import com.ming.server.pojo.Admin;
+import com.ming.server.pojo.Role;
 import com.ming.server.vo.AdminLoginParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -34,4 +36,12 @@ public interface IAdminService extends IService<Admin> {
      * @return
      */
     Admin getAdminInfoByUsername(String username);
+
+    /**
+     * 根据用户id获取角色
+     *
+     * @param id
+     * @return
+     */
+    List<Role> getRolesByAdminId(Integer id);
 }
