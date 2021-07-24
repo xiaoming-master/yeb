@@ -21,7 +21,7 @@ import java.util.List;
  * @since 2021-07-17
  */
 @RestController
-@RequestMapping("/system/config/pos")
+@RequestMapping("/system/basic/pos")
 public class PositionController {
 
     @Autowired
@@ -49,7 +49,7 @@ public class PositionController {
     @PutMapping("/")
     public ResBean updatePosition(@RequestBody Position position) {
         if (positionService.updateById(position)) {
-            return ResBean.success("跟新成功");
+            return ResBean.success("更新成功");
         } else {
             return ResBean.error("更新失败");
         }

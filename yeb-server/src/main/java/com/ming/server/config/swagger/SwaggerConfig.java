@@ -42,7 +42,7 @@ public class SwaggerConfig {
                 .title("云E办接文档")
                 .description("云E办接文档")
                 .contact(new Contact("ming", "http://localhost:8081/doc.html", "1186927930@qq.com"))
-                .version("1.0")
+                .version("2.0")
                 .build();
     }
 

@@ -31,4 +31,11 @@ public interface MenuMapper extends BaseMapper<Menu> {
      * @return
      */
     List<Menu> getMenusWithRole();
+
+    /**
+     * 擦寻所有的菜单
+     *
+     * @return
+     */
+    List<Menu> getAllMenus();
 }

@@ -4,17 +4,30 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.ming.server.pojo.Department">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="parentId" property="parentId" />
-        <result column="depPath" property="depPath" />
-        <result column="enabled" property="enabled" />
-        <result column="isParent" property="isParent" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="parentId" property="parentId"/>
+        <result column="depPath" property="depPath"/>
+        <result column="enabled" property="enabled"/>
+        <result column="isParent" property="isParent"/>
+    </resultMap>
+
+    <resultMap id="DepartmentWithChildren" type="com.ming.server.pojo.Department">
+        <collection property="children"
+                    ofType="com.ming.server.pojo.Department"
+                    select="com.ming.server.mapper.DepartmentMapper.getAllDepartment"
+                    column="id"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, name, parentId, depPath, enabled, isParent
     </sql>
+    <select id="getAllDepartment" resultMap="DepartmentWithChildren">
+        select
+        <include refid="Base_Column_List"/>
+        from t_department
+        where parentId=#{parentId}
+    </select>
 
 </mapper>
